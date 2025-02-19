@@ -7,7 +7,7 @@ const ContactWindowContent = () => (
       <span>(623) 210-3930</span>
     </div>
     <div className="contact-item">
-      <img src="/email-icon.png" alt="Email" />
+      <img src="/mail.png" alt="Email" />
       <span>royston.fernandes1609@gmail.com</span>
     </div>
     <div
