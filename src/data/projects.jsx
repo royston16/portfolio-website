@@ -21,4 +21,6 @@ const projects = [
     github: "https://github.com/royston16"
   }
 ];
+
+export default projects;
   

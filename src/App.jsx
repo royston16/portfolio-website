@@ -3,7 +3,11 @@ import "./App.css";
 import DraggableIcon from "./components/DraggableIcon";
 import NotesWidget from "./components/NotesWidget";
 import Dock from "./components/Dock";
-
+import SkillsWindowContent from "./components/SkillsWindow";
+import ProjectsWindowContent from "./components/ProjectsWindow";
+import Calculator from "./components/Calculator";
+import DraggableWindow from "./components/DraggableWindow";
+import ContactWindowContent from "./components/ContactWindow";
 
 function App() {
   const [selectedIcon, setSelectedIcon] = useState(null);

@@ -45,4 +45,4 @@ const SkillsWindowContent = () => {
   );
 };
 
-export default SkillsWindow;
+export default SkillsWindowContent;

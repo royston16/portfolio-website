@@ -16,4 +16,4 @@ const ProjectsWindowContent = () => (
   </div>
 );
 
-export default ProjectsWindow;
+export default ProjectsWindowContent;
