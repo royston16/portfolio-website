@@ -1,31 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as math from "mathjs";
 
-const Calculator = () => {
+const Calculator = ({ isActive = false }) => {
   const [display, setDisplay] = useState("0");
   const [equation, setEquation] = useState("");
 
   // Handle numbers, operators, and decimal
   const handleInput = (val) => {
-    if (display === "Error") setDisplay("0"); // Reset on error
-    
-    if (display === "0" && !isNaN(val)) {
+    const current = display === "Error" ? "0" : display;
+
+    if (current === "0" && !isNaN(val)) {
       // Replace initial zero with number
       setDisplay(val);
-    } else if (display === "0" && isNaN(val)) {
+    } else if (current === "0" && isNaN(val)) {
       // Allow operators after zero
-      setDisplay(display + val);
+      setDisplay(current + val);
     } else {
-      setDisplay(display + val);
+      setDisplay(current + val);
     }
   };
 
   // Evaluate using math.js
   const calculate = () => {
     try {
-      const result = math.evaluate(display);
+      const current = display === "Error" ? "0" : display;
+      const result = math.evaluate(current);
       setDisplay(result.toString());
-      setEquation(display + " = " + result);
+      setEquation(current + " = " + result);
     } catch (error) {
       setDisplay("Error");
       setEquation("");
@@ -41,7 +42,8 @@ const Calculator = () => {
   // Handle percentage
   const handlePercent = () => {
     try {
-      const result = math.evaluate(`${display}/100`);
+      const current = display === "Error" ? "0" : display;
+      const result = math.evaluate(`${current}/100`);
       setDisplay(result.toString());
     } catch (error) {
       setDisplay("Error");
@@ -50,9 +52,75 @@ const Calculator = () => {
 
   // Handle plus/minus
   const handleSign = () => {
-    if (display === "0" || display === "Error") return;
+    if (display === "Error") {
+      setDisplay("0");
+      return;
+    }
+    if (display === "0") return;
     setDisplay(display.startsWith("-") ? display.slice(1) : `-${display}`);
   };
+
+  useEffect(() => {
+    if (!isActive) return;
+
+    const handleKeyDown = (event) => {
+      if (event.defaultPrevented) return;
+      const target = event.target;
+      if (
+        target instanceof HTMLElement &&
+        (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable)
+      ) {
+        return;
+      }
+
+      const key = event.key;
+      if (/^\d$/.test(key)) {
+        event.preventDefault();
+        handleInput(key);
+        return;
+      }
+
+      switch (key) {
+        case ".":
+          event.preventDefault();
+          handleInput(".");
+          break;
+        case "+":
+        case "-":
+        case "*":
+        case "/":
+          event.preventDefault();
+          handleInput(key);
+          break;
+        case "%":
+          event.preventDefault();
+          handlePercent();
+          break;
+        case "Enter":
+        case "=":
+          event.preventDefault();
+          calculate();
+          break;
+        case "Escape":
+        case "c":
+        case "C":
+          event.preventDefault();
+          clear();
+          break;
+        case "F9":
+        case "s":
+        case "S":
+          event.preventDefault();
+          handleSign();
+          break;
+        default:
+          break;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isActive, handleInput, handlePercent, calculate, clear, handleSign]);
 
   return (
     <div className="calculator">

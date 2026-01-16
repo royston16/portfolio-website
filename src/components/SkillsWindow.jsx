@@ -1,48 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import skills from "../data/skills";
 
-const SkillsWindowContent = () => {
-  const [displayText, setDisplayText] = useState("");
-  const [showSkills, setShowSkills] = useState(false);
-  const command = "cat skills";
-
-  useEffect(() => {
-    if (displayText.length < command.length) {
-      const timeout = setTimeout(() => {
-        setDisplayText(command.substring(0, displayText.length + 1));
-      }, 100);
-      return () => clearTimeout(timeout);
-    } else {
-      const timeout = setTimeout(() => {
-        setShowSkills(true);
-      }, 500);
-      return () => clearTimeout(timeout);
-    }
-  }, [displayText]);
-
-  return (
-    <div className="terminal-content">
-      <div className="terminal-line">
-        <span className="terminal-prompt">$</span>
-        <span className="terminal-command">{displayText}</span>
-        <span className="cursor">_</span>
+const SkillsWindowContent = () => (
+  <div className="skills-window">
+    <div className="skills-header">
+      <div>
+        <div className="skills-title">Skills</div>
+        <div className="skills-subtitle">Toolbox and technologies I use regularly.</div>
       </div>
-      {showSkills && (
-        <div className="skills-output">
-          {Object.entries(skills).map(([category, items]) => (
-            <div key={category}>
-              <div className="skill-category">📁 {category}</div>
-              {items.map((skill) => (
-                <div key={skill} className="skill-item">
-                  ├─ {skill}
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-      )}
+      <div className="skills-pill">Updated</div>
     </div>
-  );
-};
+    <div className="skills-grid">
+      {Object.entries(skills).map(([category, items]) => (
+        <div key={category} className="skills-card">
+          <div className="skills-card-title">{category}</div>
+          <div className="skills-tags">
+            {items.map((skill) => (
+              <span key={skill} className="skills-tag">
+                {skill}
+              </span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
 
 export default SkillsWindowContent;

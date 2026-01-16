@@ -1,8 +1,21 @@
-# React + Vite
+# Portfolio Website (macOS-Inspired)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A macOS-style desktop portfolio built with React and Vite, featuring draggable windows, a dock, and a lock screen entry.
 
-Currently, two official plugins are available:
+## Requirements
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Node.js 18+
+
+## Run locally
+
+```bash
+npm install
+npm run dev
+```
+
+## Build for production
+
+```bash
+npm run build
+npm run preview
+```
